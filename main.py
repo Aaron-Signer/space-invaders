@@ -2,7 +2,7 @@
 import pygame
 import random
 from threading import Timer
-import game_timer
+#import game_timer
 
 class Particle:
     time_on_screen = 0
@@ -14,17 +14,23 @@ class Particle:
         self.position = None
 
 class Enemy:
-    def update_position(self):
-        print('In update postion')
+    def update_position(self, dt):
         if self.position != None:
-            print('Updating')
+            self.time_since_move += dt
+
+            if self.time_since_move > self.move_timeout:
+                self.time_since_move = 0
+                self.position = pygame.Vector2(self.position.x + 20, self.position.y)
+
 
     def __init__(self, sprite_path) -> None:
         self.sprite = pygame.image.load(sprite_path)
         self.position = None
+        self.time_since_move = 0
+        self.move_timeout = 1
 
-game_timer = game_timer.GameTimer(print('In Game Timer'), 3)
-game_timer.start()
+#game_timer = game_timer.GameTimer(print('In Game Timer'), 3)
+#game_timer.start()
 
 # pygame setup
 pygame.init()
@@ -72,9 +78,7 @@ while running:
         particle.position = pygame.Vector2(particle.position.x, particle.position.y + dt*200)
         pygame.draw.circle(screen, particle.color, particle.position, particle.radius)
 
-    if time_since_last_enemy_move > enemy_move_timer :
-        enemy_1.position = pygame.Vector2(enemy_1.position.x + 20, enemy_1.position.y)
-        time_since_last_enemy_move = 0
+    enemy_1.update_position(dt)
 
     screen.blit(player, pygame.Vector2(100, 100))
     screen.blit(enemy_1.sprite, enemy_1.position)
