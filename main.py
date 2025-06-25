@@ -2,6 +2,7 @@
 import pygame
 import random
 from threading import Timer
+import game_timer
 
 class Particle:
     time_on_screen = 0
