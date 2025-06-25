@@ -23,6 +23,8 @@ class Enemy:
         self.sprite = pygame.image.load(sprite_path)
         self.position = None
 
+game_timer = game_timer.GameTimer(print('In Game Timer'), 3)
+game_timer.start()
 
 # pygame setup
 pygame.init()
