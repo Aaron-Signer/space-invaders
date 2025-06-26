@@ -5,6 +5,7 @@ from threading import Timer
 #import game_timer
 from enemy import Enemy
 from particle import Particle
+from player import Player
 
 #game_timer = game_timer.GameTimer(print('In Game Timer'), 3)
 #game_timer.start()
@@ -23,7 +24,7 @@ particle_array = []
 particle_spawner_timer = .25
 time_since_last_circle = 0
 
-player = pygame.image.load('Assets/Sprites/Invaders/space__0006_Player.png')
+player = Player()
 enemy_1 = Enemy('Assets/Sprites/Invaders/space__0000_A1.png')
 enemy_1.position = pygame.Vector2(200, 200)
 
@@ -55,9 +56,8 @@ while running:
 #    particle_array = list(map(lambda particle: particle.update_position(), particle_array))
     enemy_1.update_position(dt)
 
-    screen.blit(player, pygame.Vector2(100, 100))
     screen.blit(enemy_1.sprite, enemy_1.position)
-
+    screen.blit(player.image, player.rect)
     pygame.display.flip()
 
     dt = clock.tick(60) / 1000
