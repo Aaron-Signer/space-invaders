@@ -25,8 +25,8 @@ particle_spawner_timer = .25
 time_since_last_circle = 0
 
 player = Player()
-enemy_1 = Enemy('Assets/Sprites/Invaders/space__0000_A1.png')
-enemy_1.position = pygame.Vector2(200, 200)
+enemy_1 = Enemy()
+enemy_1.rect.topleft = (200, 200)
 
 while running:
     # poll for events
@@ -56,7 +56,7 @@ while running:
 #    particle_array = list(map(lambda particle: particle.update_position(), particle_array))
     enemy_1.update_position(dt)
 
-    screen.blit(enemy_1.sprite, enemy_1.position)
+    screen.blit(enemy_1.image, enemy_1.rect)
     screen.blit(player.image, player.rect)
     pygame.display.flip()
 
