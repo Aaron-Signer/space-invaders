@@ -3,31 +3,8 @@ import pygame
 import random
 from threading import Timer
 #import game_timer
-
-class Particle:
-    time_on_screen = 0
-    color = "red"
-    radius = 5
-
-    def __init__(self):
-        self.show_time = random.randint(5, 10)    
-        self.position = None
-
-class Enemy:
-    def update_position(self, dt):
-        if self.position != None:
-            self.time_since_move += dt
-
-            if self.time_since_move > self.move_timeout:
-                self.time_since_move = 0
-                self.position = pygame.Vector2(self.position.x + 20, self.position.y)
-
-
-    def __init__(self, sprite_path) -> None:
-        self.sprite = pygame.image.load(sprite_path)
-        self.position = None
-        self.time_since_move = 0
-        self.move_timeout = 1
+from enemy import Enemy
+from particle import Particle
 
 #game_timer = game_timer.GameTimer(print('In Game Timer'), 3)
 #game_timer.start()
@@ -45,9 +22,6 @@ colors = ["red", "blue", "yellow", "orange", "purple"]
 particle_array = []
 particle_spawner_timer = .25
 time_since_last_circle = 0
-
-enemy_move_timer = 1
-time_since_last_enemy_move = 0
 
 player = pygame.image.load('Assets/Sprites/Invaders/space__0006_Player.png')
 enemy_1 = Enemy('Assets/Sprites/Invaders/space__0000_A1.png')
@@ -75,22 +49,18 @@ while running:
 
     for particle in particle_array:
         particle.time_on_screen += dt
-        particle.position = pygame.Vector2(particle.position.x, particle.position.y + dt*200)
+        particle.update_position(dt)
         pygame.draw.circle(screen, particle.color, particle.position, particle.radius)
 
+#    particle_array = list(map(lambda particle: particle.update_position(), particle_array))
     enemy_1.update_position(dt)
 
     screen.blit(player, pygame.Vector2(100, 100))
     screen.blit(enemy_1.sprite, enemy_1.position)
 
-    # flip() the display to put your work on screen
     pygame.display.flip()
 
-    # limits FPS to 60
-    # dt is delta time in seconds since last frame, used for framerate-
-    # independent physics.
     dt = clock.tick(60) / 1000
     time_since_last_circle += dt
-    time_since_last_enemy_move += dt
 
 pygame.quit()
