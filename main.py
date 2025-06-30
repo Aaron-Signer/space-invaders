@@ -20,13 +20,18 @@ running = True
 dt = 0
 colors = ["red", "blue", "yellow", "orange", "purple"]
 
+row_1_invaders = []
+
 particle_array = []
 particle_spawner_timer = .25
 time_since_last_circle = 0
 
 player = Player()
-enemy_1 = Enemy()
-enemy_1.rect.topleft = (200, 200)
+
+for i in range(0,11):
+    invader = Enemy()
+    invader.rect.topleft = (100 + i*50, 400)
+    row_1_invaders.append(invader)
 
 while running:
     # poll for events
@@ -54,9 +59,11 @@ while running:
         pygame.draw.circle(screen, particle.color, particle.position, particle.radius)
 
 #    particle_array = list(map(lambda particle: particle.update_position(), particle_array))
-    enemy_1.update_position(dt)
 
-    screen.blit(enemy_1.image, enemy_1.rect)
+    for invader in row_1_invaders:
+        invader.update_position(dt)
+        screen.blit(invader.image, invader.rect)
+
     screen.blit(player.image, player.rect)
     pygame.display.flip()
 
