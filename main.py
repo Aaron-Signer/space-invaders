@@ -10,6 +10,17 @@ from player import Player
 #game_timer = game_timer.GameTimer(print('In Game Timer'), 3)
 #game_timer.start()
 
+#TODO: Maybe have a row factory
+invaders_row_1_image_array = [
+    'Assets/Sprites/Invaders-32/space__0000_A1.png',
+    'Assets/Sprites/Invaders-32/space__0001_A2.png'
+]
+invaders_row_2_image_array = [
+    'Assets/Sprites/Invaders-32/space__0002_B1.png',
+    'Assets/Sprites/Invaders-32/space__0003_B2.png'
+] 
+  
+ 
 # pygame setup
 pygame.init()
 width = 1280
@@ -21,6 +32,7 @@ dt = 0
 colors = ["red", "blue", "yellow", "orange", "purple"]
 
 row_1_invaders = []
+row_2_invaders = []
 
 particle_array = []
 particle_spawner_timer = .25
@@ -29,9 +41,16 @@ time_since_last_circle = 0
 player = Player()
 
 for i in range(0,11):
-    invader = Enemy()
-    invader.rect.topleft = (100 + i*50, 400)
+    invader = Enemy(invaders_row_1_image_array)
+    invader.rect.topleft = (100 + i*60, 200)
     row_1_invaders.append(invader)
+
+
+for i in range(0,11):
+    invader = Enemy(invaders_row_2_image_array)
+    invader.rect.topleft = (100 + i*60, 250)
+    row_2_invaders.append(invader)
+
 
 while running:
     # poll for events
@@ -63,6 +82,11 @@ while running:
     for invader in row_1_invaders:
         invader.update_position(dt)
         screen.blit(invader.image, invader.rect)
+
+    for invader in row_2_invaders:
+        invader.update_position(dt)
+        screen.blit(invader.image, invader.rect)
+
 
     screen.blit(player.image, player.rect)
     pygame.display.flip()

@@ -2,14 +2,10 @@ import pygame as pg
 
 class Enemy(pg.sprite.Sprite):
 
-    image_array = [
-        'Assets/Sprites/Invaders/space__0000_A1.png',
-        'Assets/Sprites/Invaders/space__0001_A2.png'
-    ] 
-
-    def __init__(self):
+    def __init__(self, image_array):
        pg.sprite.Sprite.__init__(self) 
        self.current_image_array_index = 0 
+       self.image_array = image_array         
        self.updateSprite()
        self.rect = self.image.get_rect()
        self.time_since_move = 0
@@ -21,7 +17,7 @@ class Enemy(pg.sprite.Sprite):
 
             if self.time_since_move > self.move_timeout:
                 self.time_since_move = 0
-                self.rect = self.rect.move(20, 0)
+                self.rect = self.rect.move(10, 0)
                 self.updateSprite()
                 
     def updateSprite(self):
